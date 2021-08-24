@@ -4,15 +4,17 @@ import { useMoralis } from "react-moralis";
 
 const SignUp = () => {
   const { signup } = useMoralis();
-  const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
 
   return(
-    <Box>
+    <Stack spacing={2}>
+      <Input placeholder='username' value={username} onChange={ (event) => setUsername(event.currentTarget.value) } />
       <Input placeholder='email' value={email} onChange={ (event) => setEmail(event.currentTarget.value) } />
       <Input placeholder='password' type='password' value={password} onChange={ (event) => setPassword(event.currentTarget.value) }/>
-      <Button onClick={ () => signup(email, password) }>Sign Up</Button>
-    </ Box>
+      <Button onClick={ () => signup(username, password, email) }>Sign Up</Button>
+    </ Stack>
   )
 }
 
@@ -22,16 +24,16 @@ const Login = () => {
   const [password, setPassword] = useState();
 
   return(
-    <Box>
+    <Stack spacing={2}>
       <Input placeholder='email' value={email} onChange={ (event) => setEmail(event.currentTarget.value) } />
       <Input placeholder='password' type='password' value={password} onChange={ (event) => setPassword(event.currentTarget.value) }/>
       <Button onClick={ () => login(email, password) }>Login</Button>
-    </ Box>
+    </ Stack>
   )
 }
 
 export const Auth = () => {
-  const { authenticate, isAuthenticated, isAuthenticating, authError, auth, logout, signup, signin } = useMoralis();
+  const { authenticate, isAuthenticating, authError } = useMoralis();
 
   return( <Stack spacing = {6}>
     {authError && (<Alert status="error" variant="top-accent">
@@ -44,19 +46,25 @@ export const Auth = () => {
       </Box>
       <CloseButton position="absolute" right="8px" top="8px" />
     </Alert>)}
+
+    <Text textAlign='center' fontSize="xl">
+      Invest in pre-public offerings <Text fontSize="2xl">NOW!</Text>
+    </Text>
+
     <Button isLoading={isAuthenticating} onClick={() => authenticate()}>Authorize MetaMask</Button>
-      <Text>
+      <Text textAlign='center' fontSize="xl">
         <em>
-        or
+        ..Or
         </em>
       </Text>
     <SignUp/>
-      <Text>
-        <em>
-        or
+      <Text textAlign='center' fontSize="xl">
+        <em >
+        ..Or
         </em>
       </Text>
     <Login/>
+
 
   </ Stack>
 )
